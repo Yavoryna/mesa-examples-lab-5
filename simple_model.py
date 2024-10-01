@@ -52,17 +52,14 @@ class SimpleModel(Model):
 
 
 if __name__ == "__main__":
-    model = SimpleModel(20, 20, 20)  # 20 агентів на сітці 20x20
-    for i in range(100):
+    model = SimpleModel(10, 10, 10)
+    steps_n = 100
+    for i in range(steps_n):
         model.step()
-
-    # Отримання даних про позиції агентів
     data = model.datacollector.get_agent_vars_dataframe()
-    positions = data.xs(0, level="AgentID")["Position"]
+    positions = data.loc[steps_n - 1, 'Position']
     x = [pos[0] for pos in positions]
     y = [pos[1] for pos in positions]
-
-    # Візуалізація позицій агентів
     plt.scatter(x, y)
     plt.xlabel("X координата")
     plt.ylabel("Y координата")
